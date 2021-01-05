@@ -3,10 +3,11 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 
 namespace LedgerConsolid.Models
 {
-    public class LedgerBook : IList<LedgerItem>
+    public class LedgerBook : DependencyObject, IList<LedgerItem>
     {
         public static HashSet<string> ExistingNames = new HashSet<string>();
         public LedgerBook(string title)
@@ -44,7 +45,17 @@ namespace LedgerConsolid.Models
             }
         }
 
-        public string Title { get; private set; }
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(LedgerBook), new PropertyMetadata(string.Empty));
+
+
 
         public override string ToString()
         {

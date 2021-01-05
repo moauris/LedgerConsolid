@@ -64,7 +64,7 @@ namespace LedgerConsolid.Models
 
         public override string ToString()
         {
-            return string.Join(',', new object[] { Parent, IncurredDate, Summary, Debit, Credit });
+            return string.Join(',', new object[] { Parent, IncurredDate.ToShortDateString(), Summary, Debit, Credit });
         }
 
         public static bool operator ==(LedgerItem left, LedgerItem right) =>

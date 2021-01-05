@@ -1,6 +1,7 @@
 ﻿using LedgerConsolid.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +35,29 @@ namespace LedgerConsolid.CustomControls
         public LedgerBookBox()
         {
             InitializeComponent();
+        }
+
+        private void CanExecuteAddLedgerCommand(object sender, CanExecuteRoutedEventArgs e)
+        {
+            Control target = e.Source as Control;
+            if (target != null)
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void ExecutedAddLedgerCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (CurrentBook == null)
+            {
+                CurrentBook = new LedgerBook("testbook");
+            }
+            Debug.Print(CurrentBook.ToString());
+            CurrentBook.Add(LedgerItem.Create(new DateTime(1993, 3, 14), "test Ledger Entry Item", LedgerItemCreateMode.Credit, 3667.43));
         }
     }
 }

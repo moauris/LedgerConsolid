@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="LedgerConsolid.CustomControls.LedgerItemBox"
+             x:Name="ucLedgerItemBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LedgerConsolid.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignWidth="260">
+    <Grid Background="Aqua" DataContext="{Binding CurrentItem, ElementName=ucLedgerItemBox, Mode=OneWay}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock 
+            Text="{Binding Summary}" 
+            TextWrapping="Wrap" Padding="5"
+            Grid.Column="0"/>
+        <TextBlock
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Text="{Binding Debit}"></TextBlock>
+        <TextBlock
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Text="{Binding Credit}"></TextBlock>
+    </Grid>
+</UserControl>
