@@ -5,6 +5,10 @@ using System.Text;
 
 namespace LedgerConsolid.Models
 {
+    public enum LedgerItemCreateMode
+    {
+        Credit, Debit
+    }
     public struct LedgerItem : IEquatable<LedgerItem>
     {
         public LedgerBook Parent { get; set; }
@@ -12,6 +16,29 @@ namespace LedgerConsolid.Models
         public string Summary { get; set; }
         public double Debit { get; set; }
         public double Credit { get; set; }
+
+        public static LedgerItem Create(DateTime IncurDate, string summary, LedgerItemCreateMode mode, double value)
+        {
+            LedgerItem newItem = new LedgerItem {
+                Parent = null,
+                IncurredDate = IncurDate,
+                Summary = summary,
+                Debit = 0,
+                Credit = 0
+            };
+            switch (mode)
+            {
+                case LedgerItemCreateMode.Credit:
+                    newItem.Credit = value;
+                    break;
+                case LedgerItemCreateMode.Debit:
+                    newItem.Debit = value;
+                    break;
+                default:
+                    break;
+            }
+            return newItem;
+        }
 
         public bool Equals([AllowNull] LedgerItem other)
         {
