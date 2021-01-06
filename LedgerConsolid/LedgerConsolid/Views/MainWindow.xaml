@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:LedgerConsolid.Views"
         xmlns:custom="clr-namespace:LedgerConsolid.CustomControls"
+        xmlns:viewmodel="clr-namespace:LedgerConsolid.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontSize="16">
+    <Window.Resources>
+        <viewmodel:MainWindowViewModels x:Key="ViewModels"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,8 +39,8 @@
                 <MenuItem Header="_About This App"/>
             </MenuItem>
         </Menu>
-        <ScrollViewer Grid.Row="1">
-            <custom:LedgerBookBox/>
+        <ScrollViewer Grid.Row="1" DataContext="{StaticResource ViewModels}">
+            <custom:LedgerBookBox CurrentBook="{Binding SelectedLedgerBook}"/>
         </ScrollViewer>
         <StatusBar Grid.Row="2">
             <StatusBarItem>No Workspace present</StatusBarItem>

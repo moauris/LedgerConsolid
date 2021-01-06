@@ -4,10 +4,12 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace LedgerConsolid.Models
 {
-    public class LedgerBook : DependencyObject, IList<LedgerItem>
+    public class LedgerBook : IList<LedgerItem>, INotifyPropertyChanged
     {
         public static HashSet<string> ExistingNames = new HashSet<string>();
         public LedgerBook(string title)
@@ -45,17 +47,20 @@ namespace LedgerConsolid.Models
             }
         }
 
+        private string _title;
+
         public string Title
         {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get { return _title; }
+            set 
+            { 
+                _title = value;
+                OnPropChanged("Title");
+            }
         }
 
-        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(LedgerBook), new PropertyMetadata(string.Empty));
-
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
         public override string ToString()
         {
@@ -65,6 +70,8 @@ namespace LedgerConsolid.Models
         #region IList<LedgerItem> Implementations
         private LedgerItem[] _content = new LedgerItem[0];
         private int _count = 0;
+
+
         public LedgerItem this[int index] 
         { 
             get => _content[index]; 
@@ -84,6 +91,9 @@ namespace LedgerConsolid.Models
             item.Parent = this;
             _content[_count] = item;
             _count++;
+            OnPropChanged("Count");
+            OnPropChanged("TotalCredit");
+            OnPropChanged("TotalDedit");
         }
 
         public void Clear()
@@ -138,6 +148,9 @@ namespace LedgerConsolid.Models
             temp[index] = item;
             _content = temp;
             _count++;
+            OnPropChanged("Count");
+            OnPropChanged("TotalCredit");
+            OnPropChanged("TotalDedit");
         }
 
         public bool Remove(LedgerItem item)

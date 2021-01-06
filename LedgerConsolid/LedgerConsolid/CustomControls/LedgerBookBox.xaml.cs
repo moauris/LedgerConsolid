@@ -29,7 +29,7 @@ namespace LedgerConsolid.CustomControls
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentBookProperty =
-            DependencyProperty.Register("MyProperty", typeof(LedgerBook), typeof(LedgerBookBox), new PropertyMetadata(null));
+            DependencyProperty.Register("CurrentBook", typeof(LedgerBook), typeof(LedgerBookBox), new PropertyMetadata(null));
 
 
         public LedgerBookBox()
@@ -58,6 +58,11 @@ namespace LedgerConsolid.CustomControls
             }
             Debug.Print(CurrentBook.ToString());
             CurrentBook.Add(LedgerItem.Create(new DateTime(1993, 3, 14), "test Ledger Entry Item", LedgerItemCreateMode.Credit, 3667.43));
+            Guid guid = Guid.NewGuid();
+            CurrentBook.Title = guid.ToString();
+            Debug.Print(CurrentBook.ToString());
+            Debug.Print("Current FontSize is:" + ucLedgerBookBox.FontSize);
+            Debug.Print("Current Count is: " + CurrentBook.Count.ToString());
         }
     }
 }
